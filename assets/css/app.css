@@ -1,0 +1,209 @@
+:root {
+  --green-color: #5FD662; 
+  --blue-color: #2D86E2;
+  --grey-color: #2c3e50;
+  --orange-color: #d35400;
+  --light-grey-color: #ecf0f1;
+}
+
+
+.mainContainer{
+	width: 100vW;
+	height: 100vH;
+}
+
+.calendarContainer {
+	margin: auto;
+	min-height: 500px;
+	overflow: hidden;
+	background: #fff;
+	border-radius: 4px; 
+}
+
+.calendarContainer .calendarWrapper{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+
+.calendarWrapper .calendar{
+	min-height: 400px;
+	padding: 10px;
+	position: relative;
+}
+
+.calendar .header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.header .headerButton {
+	padding: 2px 3px;
+	color: var(--blue-color);
+	background: transparent;
+	border-color: var(--blue-color);
+	border: 1px solid transparent;
+	transition: all 0.25s ease;
+}
+
+.header .headerButton:hover {
+	border-color: inherit;
+	background: var(--light-grey-color);
+	transition: all 0.25s ease;
+}
+
+.header .headerButton.centerButton {
+	padding: 2px 10px;
+	font-weight: bold;
+	border-color: var(--orange-color);
+	border: 1px solid transparent;
+	color: var(--orange-color);
+}
+
+.header .headerButton.centerButton:hover {
+	border-color: inherit;
+}
+
+.header .leftButton, .header .rightButton {
+	font-size: 20px;
+}
+
+
+.calendar .body {
+	display: flex;
+	justify-content: space-between;
+}
+
+.calendar .calendarBody {
+	position: relative;
+	overflow: hidden;
+}
+
+.calendar .calWrapper {
+	position: absolute;
+	top: 0px;
+}
+
+.calendar .currentCal {
+	left: 0px;
+	position: relative;
+}
+.calendar .nextCal {
+	left: 100000px;
+	background: yellow;
+}
+.calendar .prevCal {
+	left: -100000px;
+	background: cyan
+}
+
+
+
+.calendarBody .cellsGroup {
+	display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar .cell {
+	font-size: 14px;
+	flex: 1;
+	text-align: center;
+	vertical-align: middle;
+    margin: 5px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--blue-color);
+	border-color: var(--blue-color);
+	transition: all 0.25s ease;
+	cursor: pointer;
+}
+
+.calendar .cell.headerCell {
+	font-weight: bold;
+	color: var(--grey-color);
+	border-color: var(--grey-color);
+}
+
+.calendar .cell.weekend {
+	color: var(--green-color);
+	border-color: var(--green-color);
+}
+
+.calendar .cell.day.weekend:hover, .calendar .cell.day.weekend.selected {
+	background: var(--green-color);
+	border-color: var(--green-color);
+	color: #fff;
+}
+
+
+.calendar .cell.day {
+    border: 1px solid transparent;
+}
+
+.calendar .cell.day:hover, .calendar .cell.day.selected {
+    background: var(--blue-color);
+    color: #fff;
+}
+
+.calendar .cell.day.selected{
+    box-shadow: 3px 3px 10px -5px #000;
+}
+
+
+.calendar .cell.day.today {
+    border: 1px solid;
+    border-color: inherit;
+}
+
+.calendar .cell.day:hover {
+	transition: all 0.25s ease;
+	color: #fff;
+}
+
+
+.calendarWrapper .reminder{
+	padding: 10px;
+	background: #f5f5f5;
+}
+
+
+.calendar .datePicker {
+	display: block;
+	width: 100%;
+    padding: 13px 10px;
+    position: absolute;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 4px;
+    top: -100px;
+    left: 0px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+	transition: all 0.25s ease;
+	box-sizing: border-box;
+}
+
+.datePicker select {
+	width: 20%;
+}
+
+.datePicker button {
+	cursor: pointer;
+	background: var(--blue-color);
+	font-size: 10px;
+	padding: 0px 15px;
+}
+
+.datePicker button.cancelButton {
+	background: var(--orange-color);
+}
+
+
+

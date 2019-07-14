@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2019 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="left-circle" unicode="&#xe800;" d="M465-97q-185 0-316 132t-131 315 131 316 316 131 315-131 131-316-131-315-315-132z m-2 671l-222-223 222-222 0 166 225 0 0 112-225 0 0 167z" horiz-adv-x="928" />
+
+<glyph glyph-name="right-circle" unicode="&#xe801;" d="M465 797q184 0 315-131t131-316-131-315-315-132-316 132-131 315 131 316 316 131z m1-670l222 224-222 222 0-166-225 0 0-112 225 0 0-168z" horiz-adv-x="928" />
+
+<glyph glyph-name="location-alt" unicode="&#xe802;" d="M242 797q92 0 157-66t65-157q0-55-55-223t-111-308l-57-140q-25 61-62 156t-99 277-62 238q0 92 66 157t158 66z m0-335q45 0 78 33t33 78-33 79-78 33-79-33-33-79 33-78 79-33z" horiz-adv-x="482" />
+
+<glyph glyph-name="clock" unicode="&#xe803;" d="M464 685q-138 0-236-98t-98-237 98-237 236-97 237 97 98 237-98 237-237 98z m1 112q184 0 315-131t131-316-131-315-315-132-316 132-131 315 131 316 316 131z m151-518l-80-80-109 111q-19 17-19 41l0 223 113 0 0-199z" horiz-adv-x="928" />
+</font>
+</defs>
+</svg>
