@@ -1,0 +1,145 @@
+:root {
+  --green-color: #5FD662; 
+  --blue-color: #2D86E2;
+  --dark-blue-color: #2171c4;
+  --dark-green-color:#4ab44d;
+  --grey-color: #2c3e50;
+  --orange-color: #d35400;
+  --light-grey-color: #ecf0f1;
+}
+
+.reminderWrapper {
+	height: 100%;
+}
+
+.reminderBlock {
+	background: var(--blue-color);
+	color: #fff;
+	height: 100%;
+    width: 100%;
+    position: relative;
+	transition: all 0.25s ease;
+}
+
+.reminderBlock.transition {
+	position: absolute;
+	top: 320px;
+}
+	
+.reminderBlock.transition.open{
+	position: absolute;
+	top: 0px;
+	overflow: auto;
+}
+
+.reminderBlock.open .reminderTitleAction {
+	box-shadow: 0px -6px 5px 5px #000;
+}
+
+
+.reminderBlock.weekend {
+	background: var(--green-color);
+	color: #fff;
+}
+
+.reminderTitleAction {
+	background-color: inherit;
+	padding: 15px 20px;
+	display: flex;
+	justify-content: space-between;
+	font-weight: lighter;
+	position: sticky;
+    top: 0px;
+    z-index: 100;
+}
+
+.reminderTitleAction .title {
+	font-size: 14px;
+	margin-bottom: 2px;
+}
+
+.reminderTitleAction .dateValue {
+	font-size: 11px;
+}
+
+.reminderTitleAction button {
+	background-color: inherit;
+	transition: all 0.25s ease;
+	border: 1px solid transparent;
+}
+
+.reminderBlock .reminderTitleAction button:hover {
+	border: 1px solid #fff;
+	background-color: var(--dark-blue-color);
+}
+
+.reminderBlock.weekend .reminderTitleAction button:hover {
+	border: 1px solid #fff;
+	background-color: var(--dark-green-color);
+}
+
+.reminder {
+	position: relative;
+	display: flex;
+	background-color: inherit;
+	padding: 0px 10px
+}
+
+.reminder .line{
+	width: 5%;
+	border-right: 1px dashed #fff; 
+	position: relative;
+	background-color: inherit;
+}
+
+.reminder .circle{
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	top: 11px;
+	right: -6px;
+	border: 1px solid #fff;
+	background-color: inherit;
+	border-radius: 50%;
+	z-index: 10
+}
+
+.reminder .content{
+	position: relative;
+	width: 95%;
+	padding-left: 5%;
+	margin-bottom: 15px;
+	padding-top: 10px;
+	font-size: 10px;
+	font-weight: lighter;
+}
+
+.reminder .title {
+	font-size: 12px;
+	font-weight: normal;
+	padding-left: 5px;
+	margin-bottom: 5px;
+}
+
+.reminder .contentText {
+	font-weight: inherit;
+	display: flex; 
+	margin-bottom: 2px;
+}
+
+.reminder .contentText .icon {
+	font-size: 12px;
+}
+
+.reminder .contentText .text {
+	font-size: 12px;
+	margin-right: 10px;
+}
+
+.reminder .location{ }
+.reminder .time{ display: flex; }
+
+
+
+
+
