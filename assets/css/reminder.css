@@ -58,17 +58,47 @@
 	margin-bottom: 2px;
 }
 
+.reminderTitleAction .left {
+	padding: 2px 10px;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	position: relative;
+	overflow: hidden;
+}
+
+.left .todayDate {
+	position: absolute;
+    top: -100px;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    font-size: 10px;
+    left: 0px;
+    padding-top: 10px;
+    text-align: center;
+    transition: all 0.15s ease
+}
+
+.left:hover .todayDate {
+    top: 0px;
+}
+
+.left:hover .title, .left:hover .dateValue {
+	visibility: hidden;
+}
+
+
 .reminderTitleAction .dateValue {
 	font-size: 11px;
 }
 
 .reminderTitleAction button {
 	background-color: inherit;
-	transition: all 0.25s ease;
 	border: 1px solid transparent;
 }
 
-.reminderBlock .reminderTitleAction button:hover {
+.reminderBlock .reminderTitleAction button:hover, .reminderTitleAction .left:hover {
 	border: 1px solid #fff;
 	background-color: var(--dark-blue-color);
 }
@@ -142,15 +172,16 @@
 	
 .addEventFormContainer {
 	position: absolute;
-	top: 5000px;
 	left: 0px;
+	top: 0px;
 	width: 100%;
-	height: 100%;
-	padding: 15px;
+	height: 0%;
+	padding: 0px 15px;
 	z-index: 200;
 	color: inherit;
 	background: rgba(255,255,255,0.75);
 	transition: all 0.10s ease;
+	overflow: hidden;
 }
 
 .reminderBlock.open .addEventFormContainer {

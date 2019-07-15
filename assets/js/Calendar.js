@@ -11,6 +11,8 @@ class Calendar {
 			centerButton: null,
 			headerRef: null
 		};
+
+
 		this.calendarBody = null;
 		this.parentContainer = parentContainer;
 		this.currentDate = this.getDateMonthYear();
@@ -18,6 +20,23 @@ class Calendar {
 		this.selectedDate = null;
 
 		this.initializeMembers();
+	}
+
+	setSelectedDate (dateObj) {
+		var detailObj = this.getDateMonthYear(dateObj);
+		var classToFind = 'date-'+detailObj.date;
+		this.currentDate = detailObj; // this.getDateMonthYear(detailObj.dateObj);
+		this.initializeCalendarToThisDate();
+
+		setTimeout(()=>{
+			var currentCal = this.calendarBody.getElementsByClassName('currentCal')[0];
+			var cell = currentCal.getElementsByClassName(classToFind)[0];
+			cell.classList.add("selected");
+			if (this.selectedDate !== null) {
+				this.selectedDate.classList.remove("selected");
+			}
+			this.selectedDate = cell;
+		}, 250)
 	}
 
 	registerDateClickMethod (fn) {
@@ -148,7 +167,7 @@ class Calendar {
 				var cell = {}
 				if (fill === true) {
 
-					let className = `cell day ${day.toLowerCase()} ${currentColumn} ${currentRow}`;
+					let className = `cell day ${day.toLowerCase()} ${currentColumn} ${currentRow} date-${dateToPrint}`;
 					if (i === 0 || i === 6) {
 						className = className + ' weekend';
 					}
@@ -203,7 +222,6 @@ class Calendar {
 	clickEventHandler (event) {
 		event.stopPropagation();
 		var className = event.target.className;
-		
 		if (className.indexOf('day') > -1) {
 			this.handleDateClicked(event);
 		} else if (className.indexOf('headerButton') > -1 || className.indexOf('arrow') > -1) {
@@ -213,20 +231,24 @@ class Calendar {
 		}
 	}
 
+	initializeCalendarToThisDate () {
+		for (var i=3; i>0; i--) {
+			this.calendarBody.removeChild(this.calendarBody.children[i])
+		}
+		this.initializeMembers();
+		this.updateButtonTitle();
+		this.generateCalendarBodyCells();
+		this.generateAnotherMonth();
+	}
+
 	handleDatePickerClick (event) {
 		var className = event.target.className;
 		if (className.indexOf('applyButton') > -1) {
+			debugger;
 			var month = (this.datePicker.getElementsByClassName('monthSelect')[0]).value;
 			var year = (this.datePicker.getElementsByClassName('yearSelect')[0]).value;
 			this.currentDate = this.getDateMonthYear(new Date(month+' '+year));
-			for (var i=3; i>0; i--) {
-				this.calendarBody.removeChild(this.calendarBody.children[i])
-			}
-		
-			this.initializeMembers();
-			this.updateButtonTitle();
-			this.generateCalendarBodyCells();
-			this.generateAnotherMonth();
+			this.initializeCalendarToThisDate();
 		} 
 		this.datePicker.style.top = '-100px'
 	}
