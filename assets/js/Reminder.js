@@ -9,6 +9,9 @@ class Reminder {
 		
 		this.reminderHeader = null;
 		this.reminderBlock = null
+
+		this.reminderFormBlock = null;
+		this.reminderForm = null;
 	}
 
 	
@@ -46,12 +49,72 @@ class Reminder {
 		}
 	}
 
+	showReminderModal () {
+		var top = '-100px'
+		if (this.reminderBlock.className.indexOf('open') > -1) {
+			top = '0px'
+		}
+		this.reminderFormBlock.style.top = top;
+	}
+
+	hideReminderModal () {
+		this.reminderFormBlock.style.top = '5000px';
+	}
+
+	handleAddEventClicks (event) {
+		event.stopPropagation();
+		if (event.target.nodeName === 'INPUT' || event.target.nodeName === 'SELECT') {
+			return;
+		}
+		var className = event.target.className
+		console.log(className);
+		if (className.indexOf('addEventForm') > -1 && className.indexOf('addEventFormContainer') === -1) {
+			return
+		} 
+		if (className.indexOf('saveButton') > -1) {
+			console.log('saveButton;');
+			this.hideReminderModal();
+			setTimeout(() => {
+				this.toggleThisBlock(this.reminderBlock);
+			},100)
+
+		} else {
+			this.hideReminderModal();
+			console.log('close;');
+
+		}
+	}
 
 	reminderEventListener () {
 		this.reminderBlock.addEventListener('click', (event) => {
 			var className = event.target.className;
+			var addEventFormBlock = event.target.closest('.addEventFormContainer');
+			console.log(addEventFormBlock);
+
+			if (className.indexOf('addEventForm') > -1 || className.indexOf('addEventFormContainer') > -1) {
+				this.handleAddEventClicks(event);
+				return;
+			}
+
+			if (addEventFormBlock !== null) {
+				if (addEventFormBlock.className.indexOf('addEventForm') > -1 || addEventFormBlock.className.indexOf('addEventFormContainer') > -1) {
+					this.handleAddEventClicks(event);
+					return;
+				}
+			}
+
+
+
+
 			if (className.indexOf('addButton') > -1) {
 				event.stopPropagation();
+				if (this.reminderBlock.className.indexOf('open') === -1) {
+					this.toggleThisBlock(this.reminderBlock);
+				}
+
+				setTimeout(() => {
+					this.showReminderModal();
+				},10)
 			} else if (className.indexOf('reminderBlock') > -1) {
 				this.toggleThisBlock(this.reminderBlock);
 			} else {
@@ -96,12 +159,53 @@ class Reminder {
 	}
 
 
+	generateReminderForm () {
+		this.reminderFormBlock = lib.createElement('div', 'addEventFormContainer');
+		this.reminderForm = lib.createElement('div', 'addEventForm');
+
+		var datePicker = lib.createElement('div', 'datePicker');
+		// var monthSelect = lib.createSingleSelect(valuesArray, defaultValue, classList)
+
+		var monthsArray = [];
+		this.monthsArray.forEach((elm,i) => {
+			monthsArray[i] = elm.name;
+		})
+
+
+		var monthSelect = lib.createSingleSelect(monthsArray);
+		var dateSelect = lib.createSingleSelect(['']);
+		var yearSelect = lib.createSingleSelect(['']);
+		datePicker.appendChild(monthSelect);
+		datePicker.appendChild(dateSelect);
+		datePicker.appendChild(yearSelect);
+
+		var titleInput = lib.createInput('title');
+		var locationInput = lib.createInput('location');
+		var saveButton = lib.createElement('button', 'saveButton', 'Create');
+		saveButton.setAttribute('type', 'button');
+
+		this.reminderForm.appendChild(datePicker);
+		this.reminderForm.appendChild(titleInput);
+		this.reminderForm.appendChild(locationInput);
+		this.reminderForm.appendChild(saveButton);
+
+		this.reminderFormBlock.appendChild(this.reminderForm);
+		this.reminderBlock.appendChild(this.reminderFormBlock);
+	}
+
+
 
 	generateReminderBlock () {
 		this.reminderBlock = lib.createElement('div', 'reminderBlock');
+		this.generateReminderForm();
 		this.generateReminderHeaderBlock();
 		this.reminderEventListener();
 		this.parentContainer.appendChild(this.reminderBlock);
 	}
 
 }
+
+Reminder.prototype.daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+Reminder.prototype.monthsArray = [{name: 'January', days: 31},{name: 'February', days: 29},{name: 'March', days: 31},{name: 'April', days: 30},{name: 'May', days: 31},{name: 'June', days: 30},{name: 'July', days: 31}, {name: 'August', days: 31},{name: 'September', days: 30},{name: 'October', days: 31},{name: 'November', days: 30},{name: 'December', days: 31}]
+
+

@@ -188,6 +188,7 @@
     justify-content: space-around;
 	transition: all 0.25s ease;
 	box-sizing: border-box;
+	box-shadow: 0px 5px 5px -5px #000;
 }
 
 .datePicker select {

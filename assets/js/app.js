@@ -39,15 +39,15 @@
 		var reminder = new Reminder(reminderWrapper);
 		reminder.generateReminderBlock();
 		reminder.generateReminderEntry(template222);
-		reminder.generateReminderEntry(template222);
-		reminder.generateReminderEntry(template);
-		reminder.generateReminderEntry(template);
-		reminder.generateReminderEntry(template);
-		reminder.generateReminderEntry(template);
-		reminder.generateReminderEntry(template);
-		reminder.generateReminderEntry(template);
-		reminder.generateReminderEntry(template);
-		reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template222);
+		// reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template);
+		// reminder.generateReminderEntry(template);
 		// reminder.generateReminderEntry();
 		// reminder.generateReminderEntry();
 
