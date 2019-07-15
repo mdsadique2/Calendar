@@ -1,8 +1,8 @@
 :root {
-  --green-color: #5FD662; 
+  --green-color: #20bf6b; 
   --blue-color: #2D86E2;
   --dark-blue-color: #2171c4;
-  --dark-green-color:#4ab44d;
+  --dark-green-color: #16a158;
   --grey-color: #2c3e50;
   --orange-color: #d35400;
   --light-grey-color: #ecf0f1;
@@ -80,6 +80,7 @@
     transition: all 0.15s ease
 }
 
+
 .left:hover .todayDate {
     top: 0px;
 }
@@ -100,7 +101,11 @@
 
 .reminderBlock .reminderTitleAction button:hover, .reminderTitleAction .left:hover {
 	border: 1px solid #fff;
-	background-color: var(--dark-blue-color);
+	/*background-color: var(--dark-blue-color);*/
+}
+
+.reminderBlock.weekend .left .todayDate {
+	background-color: var(--dark-green-color);
 }
 
 .reminderBlock.weekend .reminderTitleAction button:hover {

@@ -84,8 +84,6 @@ class Reminder {
 		var left = this.reminderHeader.getElementsByClassName('left')[0];
 		var obj = this.currentDateObject;
 		var diff = this.getDiffDays(this.today, this.currentDate);
-		console.log(diff);
-
 		var appender = '';
 		var dayToAppend = this.daysArray[obj.day];
 		if (diff > 1 && diff <7) {
@@ -105,10 +103,24 @@ class Reminder {
 		left.childNodes[1].innerHTML = obj.date+'/'+(obj.month+1)+'/'+obj.year;
 	}
 
+	updatePopUpDropDownValues (dateObj) {
+		var popUp = this.reminderBlock.getElementsByClassName('datePicker')[0].childNodes;
+		popUp[1].value = dateObj.date;
+		popUp[0].value = dateObj.monthName;
+		popUp[2].value = dateObj.year;
+
+		this.currentReminderObject.monthSelect = this.monthsArray[dateObj.month];
+		this.currentReminderObject.yearSelect = dateObj.year;
+		this.currentReminderObject.dateSelect = dateObj.date;
+
+		console.log(popUp);
+	}
+
 	setCurrentDate (date) {
 		this.currentDate = date;
 		this.currentDateObject = this.getDateMonthYear(date);
 		this.updateSelectedDate();
+		this.updatePopUpDropDownValues(this.currentDateObject);
 	}
 	
 	generateReminderHeaderBlock () {
@@ -169,7 +181,6 @@ class Reminder {
 			return;
 		}
 		var className = event.target.className;
-	
 		if ((className.indexOf('addEventForm') > -1 && className.indexOf('addEventFormContainer') === -1) || className.indexOf('datePicker') > -1) {
 			return
 		} 
@@ -180,8 +191,6 @@ class Reminder {
 			}
 		} else {
 			this.hideReminderModal();
-			console.log('close;');
-
 		}
 	}
 

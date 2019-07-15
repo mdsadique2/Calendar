@@ -3,7 +3,7 @@ var lib = new Common();
 
 class Calendar {
 	
-	constructor (parentContainer) {
+	constructor (parentContainer, localData) {
 		this.calendar = null;
 		this.calendarHeader = {
 			leftButton: null,
@@ -18,7 +18,7 @@ class Calendar {
 		this.currentDate = this.getDateMonthYear();
 		this.datePicker = null;
 		this.selectedDate = null;
-
+		this.localData = localData;
 		this.initializeMembers();
 	}
 
@@ -27,7 +27,6 @@ class Calendar {
 		var classToFind = 'date-'+detailObj.date;
 		this.currentDate = detailObj; // this.getDateMonthYear(detailObj.dateObj);
 		this.initializeCalendarToThisDate();
-
 		setTimeout(()=>{
 			var currentCal = this.calendarBody.getElementsByClassName('currentCal')[0];
 			var cell = currentCal.getElementsByClassName(classToFind)[0];
@@ -167,7 +166,7 @@ class Calendar {
 				var cell = {}
 				if (fill === true) {
 
-					let className = `cell day ${day.toLowerCase()} ${currentColumn} ${currentRow} date-${dateToPrint}`;
+					let className = `cell days ${day.toLowerCase()} ${currentColumn} ${currentRow} date-${dateToPrint}`;
 					if (i === 0 || i === 6) {
 						className = className + ' weekend';
 					}
@@ -199,6 +198,12 @@ class Calendar {
 
 	handleDateClicked (event) {
 		var className = event.target.className;
+		var elm = event.target;
+		if (className.indexOf('dotContainer') > -1 || className.indexOf('dot') > -1) {
+			elm = event.target.closest('.days');
+			className = elm.className;
+		}
+
 		if (className.indexOf('selected') > -1) {
 			return;
 		}
@@ -207,13 +212,13 @@ class Calendar {
 			this.selectedDate.classList.remove("selected");
 		}
 
-		var date = event.target.innerHTML;
+		var date = elm.innerText;
 		var month = this.currentDate.month + 1;
 		var year = this.currentDate.year;
 		var dateObj = new Date(month+'/'+date+'/'+year);
 		var dateToReturn = this.getDateMonthYear(dateObj);
 
-		this.selectedDate = event.target;
+		this.selectedDate = elm;
 		this.selectedDate.className = this.selectedDate.className + ' selected'
 
 		this.dateClicked.call('', dateToReturn, event)
@@ -222,7 +227,11 @@ class Calendar {
 	clickEventHandler (event) {
 		event.stopPropagation();
 		var className = event.target.className;
-		if (className.indexOf('day') > -1) {
+		if (className.indexOf('dotContainer') > -1 || className.indexOf('dot') > -1) {
+			this.handleDateClicked(event);
+		}
+
+		if (className.indexOf('days') > -1) {
 			this.handleDateClicked(event);
 		} else if (className.indexOf('headerButton') > -1 || className.indexOf('arrow') > -1) {
 			this.prevNextCalendarHandler(event);
@@ -239,12 +248,12 @@ class Calendar {
 		this.updateButtonTitle();
 		this.generateCalendarBodyCells();
 		this.generateAnotherMonth();
+		this.generateDots();
 	}
 
 	handleDatePickerClick (event) {
 		var className = event.target.className;
 		if (className.indexOf('applyButton') > -1) {
-			debugger;
 			var month = (this.datePicker.getElementsByClassName('monthSelect')[0]).value;
 			var year = (this.datePicker.getElementsByClassName('yearSelect')[0]).value;
 			this.currentDate = this.getDateMonthYear(new Date(month+' '+year));
@@ -270,6 +279,8 @@ class Calendar {
 		this.prevMonthCalendar = lib.createElement('div', 'cellsGroup calWrapper prevCal');
 		this.generateCalendarBodyCells('prev');
 		this.updateButtonTitle();
+		this.updateDatePickerValue(dateObject);
+		this.generateDots();
 	}
 
 	moveRight () {
@@ -289,6 +300,8 @@ class Calendar {
 		this.nextMonthCalendar = lib.createElement('div', 'cellsGroup calWrapper nextCal');
 		this.generateCalendarBodyCells('next');
 		this.updateButtonTitle();
+		this.updateDatePickerValue(dateObject);
+		this.generateDots();
 	}
 
 	prevNextCalendarHandler (event) {
@@ -322,6 +335,14 @@ class Calendar {
 		this.parentContainer.appendChild(this.calendar);
 		this.generateAnotherMonth();
 		this.generateDatePicker();
+		this.generateDots();
+	}
+
+	updateDatePickerValue (dateObj) {
+		var monthSelect = this.datePicker.childNodes[0];
+		var yearSelect = this.datePicker.childNodes[1];
+		monthSelect.value = this.monthsArray[dateObj.getMonth()].name;
+		yearSelect.value = dateObj.getFullYear();
 	}
 
 	generateDatePicker () {
@@ -364,6 +385,56 @@ class Calendar {
 		this.generateCalendarBodyCells('next');
 		this.generateCalendarBodyCells('prev');
 	}
+
+	getDateCell (className) {
+		var refNode = this.calendarBody.getElementsByClassName('currentCal')[0];
+		var dateNode = refNode.getElementsByClassName(className)[0];
+		return dateNode;
+	}
+
+	generateDots (data) {
+		if (data !== undefined) {
+			this.localData = data;
+		}
+
+		if (Object.keys(this.localData).length === 0) {
+			return;
+		}
+
+		var obj = this.localData[this.currentDate.year];
+		var month = this.monthsArray[this.currentDate.month].name.toLowerCase();
+		if (obj === undefined) {
+			return;
+		}
+		obj = obj[month];
+		var ref = {};
+		for (var k in obj) {
+			ref[k] = Object.keys(obj[k]).length;
+		}
+		for (var k in ref) {
+			var val = ref[k];
+			var className = 'date-'+k;
+			var dateNode = this.getDateCell(className);
+			var dotContainer = dateNode.getElementsByClassName('dotContainer')[0];
+			if (dotContainer === undefined) {
+				dotContainer = lib.createElement('div','dotContainer');
+			} else {
+				dotContainer.innerHTML = '';
+			}
+		
+
+
+			for (var i=0; i<val; i++) {
+				if (i > 2) {
+					break;
+				}
+				var dot = lib.createElement('div','dot');
+				dotContainer.appendChild(dot);
+			}
+			dateNode.appendChild(dotContainer);
+		}
+	}
+
 }
 
 Calendar.prototype.daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']

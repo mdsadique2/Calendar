@@ -8,27 +8,13 @@
 	console.log(calendarContainer)
 	// calendarContainer.style.height = calendarContainer.clientHeight + 'px'
 
-
-	var template = {
-		fromTime: 1563143390579,
-		toTime: 1563143750579,
-		title: 'Meet John Doe cred task',
-		location: 'Starbucks, XYZ St'
-	}
-
-	var template222 = {
-		fromTime: 1563143390579,
-		toTime: 1563143750579,
-		title: 'Go buy Groceries ',
-		location: 'Store, XYZ St'
-	}
+	var localData = getLocalData();
 
 	
-	var calendar = new Calendar(calendarWrapper);
+	var calendar = new Calendar(calendarWrapper, localData);
 	var reminder = new Reminder(reminderWrapper);
 	var today = new Date();
 	today.setHours(0,0,0,0);
-	var localData = getLocalData();
 
 
 	function dateClicked (date, event) {
@@ -51,12 +37,18 @@
 			calendar.setSelectedDate(today);
 			reminder.setCurrentDate(today);
 			generateReminders(today);
+			toggleReminderClass(calendar.getDateMonthYear(today));
 			return;
 		}
 		calendar.setSelectedDate(obj.date);
-		toggleReminderClass(obj);
+		setTimeout(() => {
+			calendar.generateDots(getLocalData());
+		})
+		var date = calendar.getDateMonthYear(obj.date);
+		toggleReminderClass(date);
 		setLocalData(obj);
 	}
+
 
 	function getLocalData () {
 		var data = localStorage.getItem('reminderData');
@@ -66,6 +58,7 @@
 		}
 		return JSON.parse(data);
 	}
+
 
 	function setLocalData (obj) {
 		var data = getLocalData();
@@ -96,10 +89,7 @@
 			objRef = data[year][month][date];
 		}
 
-		var key = new Date(obj.date);
-		var from = obj.fromTime.split(':');
-		key.setHours(from[0], from[1], 0, 0);
-
+		var key = new Date();
 		var copyObj = {...obj};
 		delete copyObj.date;
 
@@ -107,14 +97,27 @@
 		objRef[k] = {
 			...copyObj
 		}
-
 		localStorage.setItem('reminderData', JSON.stringify(data));
 	}
 
 	function retriveEventOnDate (date) {
+		if (Object.keys(localData).length === 0) {
+			return;
+		}
 		var dateVal = date.getDate();
 		var monthVal = calendar.monthsArray[date.getMonth()].name.toLowerCase();
 		var year = date.getFullYear();
+		if (localData[year] === undefined) {
+			return {};
+		} else {
+			if (localData[year][monthVal] === undefined) {
+				return {};
+			} else {
+				if (localData[year][monthVal][dateVal] === undefined) {
+					return {};
+				}
+			}
+		}
 		var obj = localData[year][monthVal][dateVal];
 		return obj
 	}
@@ -127,7 +130,6 @@
 		}
 	}
 
-	// initail entry point
 	function init () {
 		calendar.generateCalendar()
 		calendar.registerDateClickMethod(dateClicked);
