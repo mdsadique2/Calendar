@@ -12,6 +12,8 @@ class Reminder {
 
 		this.reminderFormBlock = null;
 		this.reminderForm = null;
+
+		this.getTimeArray();
 	}
 
 	
@@ -89,8 +91,6 @@ class Reminder {
 		this.reminderBlock.addEventListener('click', (event) => {
 			var className = event.target.className;
 			var addEventFormBlock = event.target.closest('.addEventFormContainer');
-			console.log(addEventFormBlock);
-
 			if (className.indexOf('addEventForm') > -1 || className.indexOf('addEventFormContainer') > -1) {
 				this.handleAddEventClicks(event);
 				return;
@@ -103,15 +103,11 @@ class Reminder {
 				}
 			}
 
-
-
-
 			if (className.indexOf('addButton') > -1) {
 				event.stopPropagation();
 				if (this.reminderBlock.className.indexOf('open') === -1) {
 					this.toggleThisBlock(this.reminderBlock);
 				}
-
 				setTimeout(() => {
 					this.showReminderModal();
 				},10)
@@ -158,6 +154,51 @@ class Reminder {
 		this.reminderBlock.appendChild(reminderRow);
 	}
 
+	generateDateOptions (month) {
+		var dateSelectElement = this.reminderForm.getElementsByClassName('dateSelect')[0];
+		var yearSelectElement = this.reminderForm.getElementsByClassName('yearSelect')[0];
+
+		var yearValue = yearSelectElement.value;
+
+		var index = dateSelectElement.selectedIndex;
+		var obj = this.monthsArray[index];
+
+		dateSelectElement.innerHTML = '';
+		if(obj.name.toLowerCase() === 'february') {
+			if (yearValue % 4 === 0) {
+				obj.days = 29;
+			}
+		}
+
+		for (var i=1; i <= obj.days; i++) {
+			var option = lib.createElement('option', '', i);
+			option.setAttribute('value', i);
+			dateSelectElement.appendChild(option);
+		}
+	}
+
+	getYearArray () {
+		var year = parseInt((new Date()).getFullYear())
+		var yearsArray = [];
+		for (var i = (year - 40); i <= (year + 20); i++) {
+			yearsArray.push(i);
+		}
+		return {
+			currentYear: year,
+			yearsArray
+		}
+	}
+
+	getTimeArray () {
+		var start = 0;
+		var stepMins = 30;
+		var arr = []
+		for (var i=0; i<24; i++){
+			arr.push(i+':'+'00')
+			arr.push(i+':'+'30')
+		}
+		return arr;
+	}
 
 	generateReminderForm () {
 		this.reminderFormBlock = lib.createElement('div', 'addEventFormContainer');
@@ -167,14 +208,16 @@ class Reminder {
 		// var monthSelect = lib.createSingleSelect(valuesArray, defaultValue, classList)
 
 		var monthsArray = [];
-		this.monthsArray.forEach((elm,i) => {
+		this.monthsArray.forEach((elm, i) => {
 			monthsArray[i] = elm.name;
 		})
 
+		var yearsObj = this.getYearArray()		
 
-		var monthSelect = lib.createSingleSelect(monthsArray);
-		var dateSelect = lib.createSingleSelect(['']);
-		var yearSelect = lib.createSingleSelect(['']);
+		var monthSelect = lib.createSingleSelect(monthsArray, monthsArray[0], 'monthSelect');
+		var dateSelect = lib.createSingleSelect([''], null ,'dateSelect');
+		var yearSelect = lib.createSingleSelect(yearsObj.yearsArray, yearsObj.currentYear ,'yearSelect');
+
 		datePicker.appendChild(monthSelect);
 		datePicker.appendChild(dateSelect);
 		datePicker.appendChild(yearSelect);
@@ -191,6 +234,8 @@ class Reminder {
 
 		this.reminderFormBlock.appendChild(this.reminderForm);
 		this.reminderBlock.appendChild(this.reminderFormBlock);
+
+		this.generateDateOptions();
 	}
 
 
@@ -205,7 +250,7 @@ class Reminder {
 
 }
 
-Reminder.prototype.daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-Reminder.prototype.monthsArray = [{name: 'January', days: 31},{name: 'February', days: 29},{name: 'March', days: 31},{name: 'April', days: 30},{name: 'May', days: 31},{name: 'June', days: 30},{name: 'July', days: 31}, {name: 'August', days: 31},{name: 'September', days: 30},{name: 'October', days: 31},{name: 'November', days: 30},{name: 'December', days: 31}]
+Reminder.prototype.daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+Reminder.prototype.monthsArray = [{name: 'January', days: 31}, {name: 'February', days: 29},{name: 'March', days: 31},{name: 'April', days: 30},{name: 'May', days: 31},{name: 'June', days: 30},{name: 'July', days: 31}, {name: 'August', days: 31},{name: 'September', days: 30},{name: 'October', days: 31},{name: 'November', days: 30},{name: 'December', days: 31}]
 
 
