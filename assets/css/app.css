@@ -1,5 +1,5 @@
 :root {
-  --green-color: #5FD662; 
+  --green-color: #20bf6b; 
   --blue-color: #2D86E2;
   --grey-color: #2c3e50;
   --orange-color: #d35400;
@@ -121,6 +121,10 @@
     color: var(--blue-color);
 	border-color: var(--blue-color);
 	transition: all 0.25s ease;
+	position: relative;
+}
+
+.calendar .cell.days {
 	cursor: pointer;
 }
 
@@ -135,33 +139,37 @@
 	border-color: var(--green-color);
 }
 
-.calendar .cell.day.weekend:hover, .calendar .cell.day.weekend.selected {
+.calendar .cell.days.weekend:hover, .calendar .cell.days.weekend.selected {
 	background: var(--green-color);
 	border-color: var(--green-color);
 	color: #fff;
 }
 
+.calendar .cell.days.weekend:hover .dot, .calendar .cell.days.weekend.selected .dot{
+	background-color: #fff;
+}
 
-.calendar .cell.day {
+
+.calendar .cell.days {
     border: 1px solid transparent;
 }
 
-.calendar .cell.day:hover, .calendar .cell.day.selected {
+.calendar .cell.days:hover, .calendar .cell.days.selected {
     background: var(--blue-color);
     color: #fff;
 }
 
-.calendar .cell.day.selected{
+.calendar .cell.days.selected{
     box-shadow: 3px 3px 10px -5px #000;
 }
 
 
-.calendar .cell.day.today {
+.calendar .cell.days.today {
     border: 1px solid;
     border-color: inherit;
 }
 
-.calendar .cell.day:hover {
+.calendar .cell.days:hover {
 	transition: all 0.25s ease;
 	color: #fff;
 }
@@ -206,5 +214,27 @@
 	background: var(--orange-color);
 }
 
+.cell .dotContainer {
+	position: absolute;
+	bottom: 1px;
+}
+
+.cell .dot {
+	display: inline-block;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background-color: var(--blue-color);
+	margin: 1px;
+}
+
+.cell:hover .dot, .cell.selected .dot {
+	background-color: #fff;
+}
+
+
+.cell.weekend .dot {
+	background-color: var(--green-color)
+}
 
 
