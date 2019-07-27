@@ -56,7 +56,7 @@ class Reminder {
 			}
 		}
 
-		var firstDayDateRef = new Date(monthName+' '+year);
+		var firstDayDateRef = new Date(year, month);
 		var firstDayIndex = firstDayDateRef.getDay()
 		var firstDayName = this.daysArray[firstDayIndex];
 
@@ -265,23 +265,24 @@ class Reminder {
 		this.reminderBlock.appendChild(reminderRow);
 	}
 
-	generateDateOptions (month) {
+	generateDateOptions () {
 		var dateSelectElement = this.reminderForm.getElementsByClassName('dateSelect')[0];
 		var yearSelectElement = this.reminderForm.getElementsByClassName('yearSelect')[0];
+		var monthSelectElement = this.reminderForm.getElementsByClassName('monthSelect')[0];
 
 		var yearValue = yearSelectElement.value;
 
 		var index = dateSelectElement.selectedIndex;
-		var obj = this.monthsArray[index];
+		var month = this.monthsArray[monthSelectElement.selectedIndex];
 
 		dateSelectElement.innerHTML = '';
-		if(obj.name.toLowerCase() === 'february') {
+		if(month.name.toLowerCase() === 'february') {
 			if (yearValue % 4 === 0) {
-				obj.days = 29;
+				month.days = 29;
 			}
 		}
 
-		for (var i=1; i <= obj.days; i++) {
+		for (var i=1; i <= month.days; i++) {
 			var option = lib.createElement('option', '', i);
 			option.setAttribute('value', i);
 			dateSelectElement.appendChild(option);
@@ -373,6 +374,7 @@ class Reminder {
 
 	formFieldsChanged (event) {
 		var className = event.target.className;
+		this.generateDateOptions();
 		this.currentReminderObject[className] = event.target.value;
 		if (className === 'monthSelect') {
 			this.currentReminderObject[className] = this.monthsArray[event.target.selectedIndex];
@@ -432,6 +434,6 @@ class Reminder {
 }
 
 Reminder.prototype.daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-Reminder.prototype.monthsArray = [{name: 'January', days: 31, index:0}, {name: 'February', days: 29, index:1},{name: 'March', days: 31, index:2},{name: 'April', days: 30, index:3},{name: 'May', days: 31, index:4},{name: 'June', days: 30, index:5},{name: 'July', days: 31, index:6}, {name: 'August', days: 31, index:7},{name: 'September', days: 30, index:8},{name: 'October', days: 31, index:9},{name: 'November', days: 30, index:10},{name: 'December', days: 31, index:11}]
+Reminder.prototype.monthsArray = [{name: 'January', days: 31, index:0}, {name: 'February', days: 28, index:1},{name: 'March', days: 31, index:2},{name: 'April', days: 30, index:3},{name: 'May', days: 31, index:4},{name: 'June', days: 30, index:5},{name: 'July', days: 31, index:6}, {name: 'August', days: 31, index:7},{name: 'September', days: 30, index:8},{name: 'October', days: 31, index:9},{name: 'November', days: 30, index:10},{name: 'December', days: 31, index:11}]
 
 

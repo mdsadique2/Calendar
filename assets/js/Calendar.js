@@ -65,7 +65,7 @@ class Calendar {
 			}
 		}
 
-		var firstDayDateRef = new Date(monthName+' '+year);
+		var firstDayDateRef = new Date(year,month);
 		var firstDayIndex = firstDayDateRef.getDay()
 		var firstDayName = this.daysArray[firstDayIndex];
 
@@ -254,9 +254,9 @@ class Calendar {
 	handleDatePickerClick (event) {
 		var className = event.target.className;
 		if (className.indexOf('applyButton') > -1) {
-			var month = (this.datePicker.getElementsByClassName('monthSelect')[0]).value;
+			var month = (this.datePicker.getElementsByClassName('monthSelect')[0]).selectedIndex;
 			var year = (this.datePicker.getElementsByClassName('yearSelect')[0]).value;
-			this.currentDate = this.getDateMonthYear(new Date(month+' '+year));
+			this.currentDate = this.getDateMonthYear(new Date(year, month));
 			this.initializeCalendarToThisDate();
 		} 
 		this.datePicker.style.top = '-100px'
@@ -438,5 +438,5 @@ class Calendar {
 }
 
 Calendar.prototype.daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-Calendar.prototype.monthsArray = [{name: 'January', days: 31},{name: 'February', days: 29},{name: 'March', days: 31},{name: 'April', days: 30},{name: 'May', days: 31},{name: 'June', days: 30},{name: 'July', days: 31}, {name: 'August', days: 31},{name: 'September', days: 30},{name: 'October', days: 31},{name: 'November', days: 30},{name: 'December', days: 31}]
+Calendar.prototype.monthsArray = [{name: 'January', days: 31},{name: 'February', days: 28},{name: 'March', days: 31},{name: 'April', days: 30},{name: 'May', days: 31},{name: 'June', days: 30},{name: 'July', days: 31}, {name: 'August', days: 31},{name: 'September', days: 30},{name: 'October', days: 31},{name: 'November', days: 30},{name: 'December', days: 31}]
 
