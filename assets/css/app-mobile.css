@@ -1,0 +1,18 @@
+
+@media only screen and (max-width: 1000px) {
+	.calendarContainer {
+		zoom: 2.5;
+	}
+
+	/*.calendarContainer {
+		min-height: 80vh;
+		max-height: 80vh;
+		width: 80%;
+	}
+
+	.calendar .cell {
+		width: 75px;
+		height: 75px;
+		font-size: 28px;
+	}*/
+}
