@@ -135,6 +135,7 @@
 		calendar.registerDateClickMethod(dateClicked);
 		reminder.generateReminderBlock();
 		reminder.registerSaveEvent(reminderSaved);
+		toggleReminderClass(calendar.getDateMonthYear(today));
 		if (Object.keys(localData).length > 0) {
 			generateReminders(today);
 		}
